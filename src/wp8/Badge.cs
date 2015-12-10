@@ -35,7 +35,6 @@ namespace Cordova.Extension.Commands
 {
     public class Badge : BaseCommand
     {
-
         /// <summary>
         /// Name for the shared preferences
         /// <summary>
@@ -44,16 +43,15 @@ namespace Cordova.Extension.Commands
         /// <summary>
         /// Clears the count property of the live tile
         /// </summary>
-        public void clearBadge (string args)
+        public void clearBadge(string args)
         {
             setBadge(args);
-            getBadge(args);
         }
 
         /// <summary>
         /// Sets the count property of the live tile
         /// </summary>
-        public void setBadge (string args)
+        public void setBadge(string args)
         {
             // Application Tile is always the first Tile, even if it is not pinned to Start.
             ShellTile tile = ShellTile.ActiveTiles.First();
@@ -65,7 +63,8 @@ namespace Cordova.Extension.Commands
                 int count = 0;
                 string title = "";
 
-                try {
+                try
+                {
                     count = int.Parse(ary[0]);
                 }
                 catch (FormatException) { };
@@ -85,15 +84,15 @@ namespace Cordova.Extension.Commands
                 SaveBadge(count);
 
                 tile.Update(TileData);
-            }
 
-            getBadge(args);
+                DispatchCommandResult();
+            }
         }
 
         /// <summary>
         /// Gets the count property of the live tile
         /// </summary>
-        public void getBadge (string args)
+        public void getBadge(string args)
         {
             // Application Tile is always the first Tile, even if it is not pinned to Start.
             ShellTile tile = ShellTile.ActiveTiles.First();
@@ -105,7 +104,8 @@ namespace Cordova.Extension.Commands
                 int badge = 0;
                 PluginResult result;
 
-                if (settings.Contains(KEY)) {
+                if (settings.Contains(KEY))
+                {
                     badge = (int)settings[KEY];
                 }
 
@@ -118,7 +118,7 @@ namespace Cordova.Extension.Commands
         /// <summery>
         /// Informs if the app has the permission to show badges.
         /// </summery>
-        public void hasPermission (string args)
+        public void hasPermission(string args)
         {
             PluginResult result;
 
@@ -130,7 +130,7 @@ namespace Cordova.Extension.Commands
         /// <summery>
         /// Ask for permission to show badges.
         /// </summery>
-        public void registerPermission (string args)
+        public void registerPermission(string args)
         {
             hasPermission(args);
         }
@@ -139,17 +139,18 @@ namespace Cordova.Extension.Commands
         /// Persist the badge of the app icon so that `getBadge` is able to return
         /// the badge number back to the client.
         /// </summary>
-        private void SaveBadge (int badge)
+        private void SaveBadge(int badge)
         {
             IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
 
-            if (settings.Contains(KEY)) {
+            if (settings.Contains(KEY))
+            {
                 settings[KEY] = badge;
             }
-            else {
+            else
+            {
                 settings.Add(KEY, badge);
             }
         }
-
     }
 }
